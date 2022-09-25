@@ -49,6 +49,16 @@ inline fun <reified D:Any> ((D)->Vector2).yx() : (D)->Vector2 {
 
 //
 
+@JvmName("xyDVector3")
+inline fun <reified D:Any> ((D)->Vector3).xy() : (D)->Vector2 {
+    val glslTemplate = """#R# #FUN#(#D# x) { vec3 v = #this#(x); return vec2(v.x, v.y); }"""
+    return { x: D ->
+        val v = this(x)
+        Vector2(v.x, v.x)
+    }.register("xy", glslTemplate, "this" to this@xy)
+}
+
+
 @JvmName("xxDVector3")
 inline fun <reified D:Any> ((D)->Vector3).xx() : (D)->Vector2 {
     val glslTemplate = """#R# #FUN#(#D# x) { vec3 v = #this#(x); return vec2(v.x, v.x); }"""
