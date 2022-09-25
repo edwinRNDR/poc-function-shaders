@@ -48,7 +48,7 @@ val orxFeatures = setOf<String>(
 //  "orx-realsense2",
 //  "orx-runway",
     "orx-shade-styles",
-//  "orx-shader-phrases",
+  "orx-shader-phrases",
     "orx-shapes",
 //  "orx-syphon",
 //  "orx-temporal-blur",

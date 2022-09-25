@@ -1,8 +1,8 @@
 enableFeaturePreview("VERSION_CATALOGS")
-rootProject.name = "openrndr-template"
+rootProject.name = "poc-function-shaders"
 
-val openrndrUseSnapshot = false
-val orxUseSnapshot = false
+val openrndrUseSnapshot = true
+val orxUseSnapshot = true
 val ormlUseSnapshot = true
 
 dependencyResolutionManagement {
