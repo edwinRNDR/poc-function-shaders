@@ -130,3 +130,32 @@ inline fun <reified D:Any> ((D)->Vector3).zy() : (D)->Vector2 {
         Vector2(v.z, v.y)
     }.register("zy", glslTemplate, "this" to this@zy)
 }
+
+
+@JvmName("xDVector3")
+inline fun <reified D:Any> ((D)->Vector3).x() : (D)->Double {
+    val glslTemplate = """float #FUN#(#D# x) { vec3 v = #this#(x); return v.x; }"""
+    return { x: D ->
+        val v = this(x)
+        v.x
+    }.register("z", glslTemplate, "this" to this@x)
+}
+
+@JvmName("yDVector3")
+inline fun <reified D:Any> ((D)->Vector3).y() : (D)->Double {
+    val glslTemplate = """float #FUN#(#D# x) { vec3 v = #this#(x); return v.x; }"""
+    return { x: D ->
+        val v = this(x)
+        v.y
+    }.register("y", glslTemplate, "this" to this@y)
+}
+
+
+@JvmName("zDVector3")
+inline fun <reified D:Any> ((D)->Vector3).z() : (D)->Double {
+    val glslTemplate = """float #FUN#(#D# x) { vec3 v = #this#(x); return v.z; }"""
+    return { x: D ->
+        val v = this(x)
+        v.z
+    }.register("z", glslTemplate, "this" to this@z)
+}
