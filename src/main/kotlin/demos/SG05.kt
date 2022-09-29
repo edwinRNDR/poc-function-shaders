@@ -19,19 +19,22 @@ fun main() = application {
         TransformBook.register()
 
 
-        val noise = Vector3.identity.tunnel(Vector3.identity.xy(), worley2D())
+        //val noise = (worley3D().bindSeed(0)).warp(Vector3.identity + worley3D().vector3Range().bindSeed(200))
+        //val noise = worley3D().bindSeed(300)
+        val noise = worley2DT(-1.0, 1.0).scaleDomain(2.5).warp(Vector3.identity + fastSimplex3D().vector3Range().bindSeed(200).scaleDomain(1.0) * Vector3(0.0, 0.0, 0.5).constant())
 
         val f = mix(
             ColorRGBa.BLACK.constant(),
             ColorRGBa.WHITE.constant(),
-            noise.warp(Vector3.identity + fastSimplex3D().vector3Range().bindSeed(300).curl() * 0.2),
+            noise
         )
 
         val ss = shadeStyle {
             fragmentPreamble = f.glsl(customFunctionNames = mapOf(f to "demo")).preprocess()
             println(fragmentPreamble)
             fragmentTransform = """
-                x_fill= demo( vec3(c_boundsPosition.xy*10.0, p_seconds));
+                x_fill= demo( vec3(c_boundsPosition.xy*5.0, p_seconds));
+                x_fill.rgb = pow(x_fill.rgb, vec3(1.0/2.2));
             """.trimIndent()
         }
         extend {

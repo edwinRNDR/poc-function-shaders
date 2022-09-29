@@ -5,6 +5,11 @@ import org.openrndr.extra.shaderphrases.ShaderPhraseBook
 
 object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
 
+    val smin = ShaderPhrase("""float smin(float a, float b, float k) {
+    |   float h = max(k-abs(a-b), 0.0 )/k;
+    |   return min( a, b ) - h*h*k*(1.0/4.0);
+    |}""".trimMargin())
+
     val mod289 = ShaderPhrase("""float mod289(float x) {
         |   return x - floor(x * (1.0 / 289.0)) * 289.0;
         |}
@@ -94,7 +99,7 @@ object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
 
     val random2D3D = ShaderPhrase("""vec2 random_2d_3d(vec3 p) {
         |   const vec3 RANDOM_SCALE3 = vec3(.1031, .1030, .0973);
-        |   p3 = fract(p3 * RANDOM_SCALE3);
+        |   vec3 p3 = fract(p * RANDOM_SCALE3);
         |   p3 += dot(p3, p3.yzx + 19.19);
         |   return fract((p3.xx+p3.yz)*p3.zy);
         |}    
@@ -103,7 +108,7 @@ object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
     val random3D1D = ShaderPhrase("""vec3 random_3d_1d(float p) {
         |   const vec3 RANDOM_SCALE3 = vec3(.1031, .1030, .0973);
         |   vec3 p3 = fract(vec3(p) * RANDOM_SCALE3);
-        |   p3 += dot(p3, p3.yzx + 19.19);
+        |   p3 += dot(p3, p3.yxz + 19.19);
         |   return fract((p3.xxy+p3.yzz)*p3.zyx); 
         |}    
     """.trimMargin())
@@ -111,15 +116,15 @@ object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
     val random3D2D = ShaderPhrase("""vec3 random_3d_2d(vec2 p) {
         |   const vec3 RANDOM_SCALE3 = vec3(.1031, .1030, .0973);
         |   vec3 p3 = fract(vec3(p.xyx) * RANDOM_SCALE3);
-        |   p3 += dot(p3, p3.yzx + 19.19);
+        |   p3 += dot(p3, p3.yxz + 19.19);
         |   return fract((p3.xxy+p3.yzz)*p3.zyx); 
         |}    
     """.trimMargin())
 
-    val random3D3D = ShaderPhrase("""vec3 random_3d_3d(vec2 p) {
+    val random3D3D = ShaderPhrase("""vec3 random_3d_3d(vec3 p) {
         |   const vec3 RANDOM_SCALE3 = vec3(.1031, .1030, .0973);
-        |   p = fract(p * RANDOM_SCALE3);
-        |   p3 += dot(p3, p3.yzx + 19.19);
+        |   vec3 p3 = fract(p * RANDOM_SCALE3);
+        |   p3 += dot(p3, p3.yxz + 19.19);
         |   return fract((p3.xxy+p3.yzz)*p3.zyx); 
         |}    
     """.trimMargin())

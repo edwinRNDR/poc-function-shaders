@@ -51,7 +51,7 @@ operator fun ((Vector2)->Vector2).times(other: (Vector2) -> Vector2): (Vector2) 
 
 @JvmName("timesVector3Vector3")
 operator fun ((Vector3)->Vector3).times(other: (Vector3) -> Vector3): (Vector3) -> Vector3 {
-    val glslTemplate = """#R# #FeUN#(#D# v) { return #this#(v) * #other#(v); }"""
+    val glslTemplate = """#R# #FUN#(#D# v) { return #this#(v) * #other#(v); }"""
     return { v: Vector3 -> this(v) * other(v) }.register("times", glslTemplate, "this" to this@times, "other" to other)
 }
 
