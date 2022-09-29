@@ -32,7 +32,7 @@ fun worley2D(): (Vector2) -> Double {
         for (j in -1..1) {
             for (i in -1..1) {
                 val g = Vector2(i.toDouble(), j.toDouble())
-                val o = random_2d_2d(n + g)
+                val o = random2D(n + g)
                 val delta = g + o - f
                 val d = delta.length
                 dis = min(dis, d)
@@ -106,7 +106,7 @@ fun worley3D(): (Int, Vector3) -> Double {
             for (j in -1..1) {
                 for (i in -1..1) {
                     val g = Vector3(i.toDouble(), j.toDouble(), k.toDouble())
-                    val o = random_3d_3d(n + g)
+                    val o = random3D(n + g)
                     val delta = g + o - f
                     val d = delta.length
                     dis = min(dis, d)
