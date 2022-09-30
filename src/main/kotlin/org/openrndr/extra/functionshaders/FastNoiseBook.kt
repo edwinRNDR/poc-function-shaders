@@ -5,6 +5,14 @@ import org.openrndr.extra.shaderphrases.ShaderPhraseBook
 
 object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
 
+
+    val hash2D2D = ShaderPhrase("""vec2 hash22(vec2 p) {
+        |   const float HASHSCALE =443.8975;
+        |   vec3 p3 = fract(vec3(p.xyx) * HASHSCALE);
+	    |   p3 += dot(p3, p3.yzx+19.19);
+	    |   return fract(vec2((p3.x + p3.y)*p3.z, (p3.x+p3.z)*p3.y));
+        |}""".trimMargin())
+
     val smin = ShaderPhrase("""float smin(float a, float b, float k) {
     |   float h = max(k-abs(a-b), 0.0 )/k;
     |   return min( a, b ) - h*h*k*(1.0/4.0);
@@ -63,7 +71,6 @@ object FastNoisePhraseBook : ShaderPhraseBook("fastnoise") {
         |   return fract(sin(x) * 43758.5453);
         |}
     """.trimMargin())
-
 
     val random2D = ShaderPhrase("""float random_2d(vec2 st) { 
         |   return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453);
