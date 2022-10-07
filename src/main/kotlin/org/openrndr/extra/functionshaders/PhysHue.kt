@@ -82,11 +82,22 @@ inline fun <reified D : Any> ((D) -> Vector2).iridescence(): (D) -> ColorRGBa {
     PhysHuePhraseBook.register()
     val glslTemplate = """#pragma import physhue.iridescence
         |vec4 #FUN#(#D# x) {
-        |   vec2 angleThickness = #this#(x);
+        |   float  angleThickness = #this#(x);
         |   float angle = angleThickness.x * 3.1415926536 * 0.5;
         |   float thickness = angleThickness.y;
         |   return iridescence(angle, thickness);
         |}
         """.trimMargin()
     return { x: D -> error("not implemented")}.register("iridescence", glslTemplate, "this" to this@iridescence)
+}
+
+inline fun <reified D : Any> ((D) -> Double).iridescence(noinline thickness: (D)->Double): (D) -> ColorRGBa {
+    PhysHuePhraseBook.register()
+    val glslTemplate = """#pragma import physhue.iridescence
+        |vec4 #FUN#(#D# x) {
+        |   float angle = #this#(x);
+        |   return iridescence(angle, #thickness#(x));
+        |}
+        """.trimMargin()
+    return { x: D -> error("not implemented")}.register("iridescence", glslTemplate, "this" to this@iridescence, "thickness" to thickness)
 }
