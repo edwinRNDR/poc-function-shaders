@@ -82,7 +82,7 @@ inline fun <reified D : Any> ((D) -> Vector2).iridescence(): (D) -> ColorRGBa {
     PhysHuePhraseBook.register()
     val glslTemplate = """#pragma import physhue.iridescence
         |vec4 #FUN#(#D# x) {
-        |   float  angleThickness = #this#(x);
+        |   vec2 angleThickness = #this#(x);
         |   float angle = angleThickness.x * 3.1415926536 * 0.5;
         |   float thickness = angleThickness.y;
         |   return iridescence(angle, thickness);
