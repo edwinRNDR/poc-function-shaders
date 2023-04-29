@@ -11,6 +11,7 @@ import org.openrndr.extra.color.presets.LIGHT_SKY_BLUE
 import org.openrndr.extra.functionshaders.*
 import org.openrndr.extra.functionshaders.sdf.fillStroke
 import org.openrndr.extra.shaderphrases.preprocess
+import org.openrndr.math.IntVector2
 import org.openrndr.math.Vector2
 import org.openrndr.math.Vector3
 import shadergen.*
@@ -24,14 +25,17 @@ fun main() = application {
         FastNoisePhraseBook.register()
         TransformBook.register()
 
+        val a = { i:IntVector2 -> Vector2.ZERO }
         val f = fillStroke(ColorRGBa.WHITE.constant(), ColorRGBa.WHITE.constant(),
 
+            repeatDomainIndexed(1.0, 1.0, deindex(a,
             min(
-                circleSDF(Vector3.identity.xy(), 0.15),
-                circleSDF(Vector3.identity.xy() + Vector2(0.1, 0.1).constant(), 0.15)
-            )
+                circleSDF(Vector2.identity, 0.15),
+                circleSDF(Vector2.identity + Vector2(0.1, 0.1).constant(), 0.15)
+            ))
 
-        ).repeatDomain2DT(1.0, 1.0)
+        )
+        )
 
         val ss = shadeStyle {
             fragmentPreamble = f.glsl(customFunctionNames = mapOf(f to "demo")).preprocess()

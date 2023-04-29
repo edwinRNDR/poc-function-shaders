@@ -25,12 +25,34 @@ inline fun <reified R:Any, reified D:Any> glslRangeType(f: (D)->R): String {
     return mapType(R::class.simpleName ?: error("no name"))
 }
 
-inline fun <reified R:Any, reified D:Any> glslDomainType(f: (Int, D)->R): String {
-    return mapType(D::class.simpleName ?: error("no name"))
+inline fun <reified R:Any, reified D0:Any, reified D1:Any> glslDomainType0(f: (D0, D1)->R): String {
+    return mapType(D0::class.simpleName ?: error("no name"))
 }
-inline fun <reified R:Any, reified D:Any> glslRangeType(f: (Int, D)->R): String {
+
+inline fun <reified R:Any, reified D0:Any, reified D1:Any> glslDomainType1(f: (D0, D1)->R): String {
+    return mapType(D1::class.simpleName ?: error("no name"))
+}
+
+
+inline fun <reified R:Any, reified D0:Any, reified D1:Any> glslRangeType(f: (D0, D1)->R): String {
     return mapType(R::class.simpleName ?: error("no name"))
 }
+
+@JvmName("registerD0D1R")
+inline fun <reified R: Any, reified D0:Any, reified D1:Any> ((D0, D1)->R).register(name: String, glslTemplate:String, vararg data:Pair<String, Any>) : (D0, D1)->R {
+    val metadata = mutableMapOf<String, Any>()
+    metadata["FUN"] = name
+    metadata["R"] = glslRangeType(this)
+    metadata["D0"] = glslDomainType0(this)
+    metadata["D1"] = glslDomainType1(this)
+    metadata["glslTemplate"] = glslTemplate
+    for (d  in data) {
+        metadata[d.first] = d.second
+    }
+    register(this, metadata)
+    return this
+}
+
 
 
 inline fun <reified R: Any, reified D:Any> ((D)->R).register(name: String, glslTemplate:String, vararg data:Pair<String, Any>) : (D)->R {
@@ -50,7 +72,9 @@ inline fun <reified R: Any, reified D:Any> ((Int, D)->R).register(name: String, 
     val metadata = mutableMapOf<String, Any>()
     metadata["FUN"] = name
     metadata["R"] = glslRangeType(this)
-    metadata["D"] = glslDomainType(this)
+    metadata["D"] = glslDomainType1(this)
+    metadata["D0"] = glslDomainType0(this)
+    metadata["D1"] = glslDomainType1(this)
     metadata["glslTemplate"] = glslTemplate
     for (d  in data) {
         metadata[d.first] = d.second
